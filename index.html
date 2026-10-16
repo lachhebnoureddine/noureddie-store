@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>موقع شحن الألعاب</title>
+    <style>
+        body {
+            background-color: #f0f8ff;
+            text-align: center;
+            font-family: Tahoma;
+            padding-top: 20px;
+            padding-bottom: 40px;
+            margin: 0;
+        }
+        /* تصميم لافتة الاسم */
+        .banner {
+            background: linear-gradient(135deg, #2980b9, #2c3e50);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 10px auto 20px auto;
+            width: 85%;
+            max-width: 350px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+        }
+        .banner h2 {
+            margin: 0;
+            font-size: 18px;
+            letter-spacing: 1px;
+        }
+        h1 {
+            color: #2c3e50;
+            font-size: 21px;
+        }
+        p {
+            color: #34495e;
+            font-size: 15px;
+            line-height: 1.6;
+            margin: 10px 15px;
+        }
+        .products-container {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin: 20px 10px;
+        }
+        .product-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 15px;
+            width: 150px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 110px;
+            height: 110px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+        .product-name {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .product-price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 15px;
+        }
+        /* صندوق إعلان عروض الكوينز */
+        .coins-box {
+            background: #fff3cd;
+            border: 2px dashed #f39c12;
+            border-radius: 10px;
+            padding: 12px;
+            margin: 15px auto;
+            width: 80%;
+            max-width: 300px;
+        }
+        .coins-box h3 {
+            color: #d35400;
+            margin: 0 0 5px 0;
+            font-size: 16px;
+        }
+        .coins-box p {
+            color: #b7950b;
+            margin: 0;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        input {
+            padding: 10px;
+            font-size: 15px;
+            border: 2px solid #3498db;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            width: 80%;
+            max-width: 250px;
+        }
+        .btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            width: 80%;
+            max-width: 280px;
+            margin: 8px auto;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .fb-btn {
+            background-color: #1877f2;
+        }
+        .ig-btn {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+        }
+        .dev-btn {
+            background-color: #27ae60;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- لافتة اسم المطور -->
+    <div class="banner">
+        <h2>Lachheb Noureddine</h2>
+    </div>
+
+    <h1>🎮 أهلاً بكم في موقعي لشحن الألعاب</h1>
+    <p>مرحباً بكم في الموقع الخاص بالشحن الألعاب، المهتم بالشحن يتواصل مع المطور.</p>
+    
+    <hr style="width: 50%; border: 0.5px solid #bdc3c7; margin: 15px auto;">
+
+    <!-- قسم عروض شحن الألعاب واللاعبين -->
+    <h2 style="color: #2980b9; font-size: 18px;">عروض الشحن المتاحة</h2>
+    
+    <div class="products-container">
+        <!-- عرض اللاعب كسياس Casillas بسعر 750 DA -->
+        <div class="product-card">
+            <img src="casillas.jpg" alt="Casillas 750Da">
+            <div class="product-name">كسياس</div>
+            <div class="product-price">750 DA</div>
+        </div>
+
+        <!-- عرض اللاعب لويس سواريز Suárez بسعر 350 DA -->
+        <div class="product-card">
+            <img src="suarez.jpg" alt="Suárez 350Da">
+            <div class="product-name">لويس سواريز</div>
+            <div class="product-price">350 DA</div>
+        </div>
+    </div>
+
+    <!-- صندوق إعلان توفر شحن عروض الكوينز -->
+    <div class="coins-box">
+        <h3>🪙 عروض الكوينز</h3>
+        <p>متوفر شحن عروض كوينز بأسعار ممتازة!</p>
+    </div>
+
+    <hr style="width: 50%; border: 0.5px solid #bdc3c7; margin: 15px auto;">
+
+    <!-- صندوق إدخال النص -->
+    <p>أدخل اسمك لتأكيد الطلب:</p>
+    <input type="text" id="username" placeholder="اكتب اسمك هنا...">
+    <br>
+    <button class="btn" style="background-color: #3498db; width: auto; display: inline-block;" onclick="sayHello()">رحّب بي</button>
+    <br><br>
+
+    <!-- روابط التواصل الاجتماعي والاتصال -->
+    <p>للتواصل وطلب الشحن:</p>
+    
+    <!-- رابط الفيسبوك -->
+    <a href="https://www.facebook.com/share/18m65iV4GN/?mibextid=wwXIfr" target="_blank" class="btn fb-btn">فيسبوك الخاص بي</a>
+    
+    <!-- رابط الانستغرام -->
+    <a href="https://www.instagram.com/noureddine__lh?obrf=eDE3cGtldWw3Y2Vk" target="_blank" class="btn ig-btn">انستغرام</a>
+    
+    <!-- زر الاتصال برقم الهاتف الحقيقي -->
+    <a href="tel:0793188555" class="btn dev-btn">تواصل مع المطور: 0793188555</a>
+
+    <script>
+        function sayHello() {
+            let name = document.getElementById('username').value;
+            
+            if(name === "") {
+                alert('الرجاء كتابة اسمك أولاً!');
+            } else {
+                alert('أهلاً بك يا ' + name + ' في متجرنا لشحن الألعاب!');
+            }
+        }
+    </script>
+
+</body>
+</html>
