@@ -199,6 +199,63 @@
             }
         }
     </script>
+<div class="crash-container" style="text-align: center; background: #111; color: #fff; padding: 20px; border-radius: 10px; font-family: Arial; margin-top: 20px;">
+    <h2>🚀 لعبة كراش التفاعلية</h2>
+    <div id="multiplier" style="font-size: 48px; font-weight: bold; color: #00ffcc; margin: 20px 0;">1.00x</div>
+    <div id="status" style="margin-bottom: 15px; color: #aaa;">اضغط بدء الجولة لتجربتها</div>
+    <button id="startBtn" onclick="startCrash()" style="background: #28a745; color: white; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer; margin-left: 5px;">بدء الجولة</button>
+    <button id="cashoutBtn" onclick="cashOut()" disabled style="background: #ffc107; color: black; border: none; padding: 10px 20px; font-size: 16px; border-radius: 5px; cursor: pointer;">سحب الأرباح</button>
+</div>
 
+<script>
+let currentMultiplier = 1.00;
+let gameInterval = null;
+let crashPoint = 0;
+let gameRunning = false;
+let cashedOut = false;
+
+function startCrash() {
+    currentMultiplier = 1.00;
+    cashedOut = false;
+    gameRunning = true;
+    
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('cashoutBtn').disabled = false;
+    document.getElementById('status').innerText = "الصاروخ يصعد... احذر!";
+    document.getElementById('status').style.color = "#00ffcc";
+
+    crashPoint = (Math.random() * (10 - 1.2) + 1.2).toFixed(2);
+
+    gameInterval = setInterval(() => {
+        currentMultiplier += 0.05;
+        document.getElementById('multiplier').innerText = currentMultiplier.toFixed(2) + 'x';
+
+        if (currentMultiplier >= crashPoint) {
+            clearInterval(gameInterval);
+            gameRunning = false;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('cashoutBtn').disabled = true;
+
+            if (!cashedOut) {
+                document.getElementById('status').innerText = "💥 حدث سقوط (CRASH)! لقد خسرت الجولة.";
+                document.getElementById('status').style.color = "#ff4d4d";
+            }
+        }
+    }, 100);
+}
+
+function cashOut() {
+    if (gameRunning && !cashedOut) {
+        cashedOut = true;
+        gameRunning = false;
+        clearInterval(gameInterval);
+        
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('cashoutBtn').disabled = true;
+        document.getElementById('status').innerText = `🎉 مبروك! لقد سحبت أرباحك عند ${currentMultiplier.toFixed(2)}x`;
+        document.getElementById('status').style.color = "#28a745";
+    }
+}
+        </script>ج
 </body>
 </html>
