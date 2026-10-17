@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تعلم استراتيجيات لعبة كراش - الطائرة</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-family: Tahoma, sans-serif;
+            text-align: center;
+            padding-top: 15px;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .banner {
+            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            color: white;
+            padding: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .crash-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            position: relative;
+        }
+        .balance-badges-box {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 12px;
+            background: #0f172a;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #334155;
+        }
+        .balance-item {
+            flex: 1;
+            font-size: 12px;
+            color: #94a3b8;
+            text-align: center;
+        }
+        .balance-item span {
+            display: block;
+            font-size: 15px;
+            font-weight: bold;
+            margin-top: 3px;
+        }
+        .sky-area {
+            height: 120px;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 12px;
+            border: 1px solid #334155;
+        }
+        #plane {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 30px;
+            transition: transform 0.05s linear;
+        }
+        #multiplier {
+            font-size: 46px;
+            font-weight: bold;
+            color: #00ffcc;
+            margin: 8px 0;
+        }
+        #status {
+            margin-bottom: 12px;
+            color: #94a3b8;
+            font-size: 14px;
+        }
+        .input-group {
+            margin-bottom: 10px;
+            text-align: right;
+        }
+        .input-group label {
+            font-size: 12px;
+            color: #94a3b8;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .game-input {
+            width: 100%;
+            padding: 8px;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+            font-size: 14px;
+        }
+        .mode-selector {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .mode-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 12px;
+            border-radius: 6px;
+            border: 1px solid #475569;
+            background: #0f172a;
+            color: #94a3b8;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .mode-btn.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #60a5fa;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 15px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 4px;
+            width: 100%;
+        }
+        #startBtn {
+            background: #22c55e;
+            color: white;
+        }
+        #cashoutBtn {
+            background: #eab308;
+            color: black;
+        }
+        .wallet-section {
+            margin-top: 15px;
+            padding: 12px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            text-align: right;
+        }
+        .wallet-section h3 {
+            font-size: 14px;
+            color: #38bdf8;
+            margin-top: 0;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        .wallet-btn-group {
+            display: flex;
+            gap: 5px;
+            margin-top: 8px;
+        }
+        .w-btn {
+            flex: 1;
+            padding: 8px;
+            font-size: 13px;
+            border-radius: 6px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .deposit-btn { background: #3b82f6; color: white; }
+        .withdraw-btn { background: #a855f7; color: white; }
+        
+        .video-section {
+            margin-top: 15px;
+            padding: 12px;
+            background: #0f172a;
+            border-radius: 10px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        .video-section h3 {
+            font-size: 13px;
+            color: #38bdf8;
+            margin-top: 0;
+            margin-bottom: 8px;
+        }
+        .interactive-video-screen {
+            background: #090d16;
+            border: 2px dashed #3b82f6;
+            border-radius: 8px;
+            padding: 15px;
+            min-height: 80px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #demoStepText {
+            font-size: 12px;
+            color: #e2e8f0;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .play-demo-btn {
+            background: #eab308;
+            color: #000;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            width: 320px;
+            text-align: right;
+            border: 1px solid #3b82f6;
+        }
+        .modal-content h3 {
+            color: #38bdf8;
+            text-align: center;
+            margin-top: 0;
+        }
+        .modal-input {
+            width: 100%;
+            padding: 8px;
+            margin: 6px 0;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: white;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .developer-box {
+            margin-top: 15px;
+            padding: 10px;
+            background: #1e293b;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #cbd5e1;
+            border: 1px dashed #475569;
+            line-height: 1.6;
+        }
+        .developer-box span {
+            color: #22c55e;
+            font-weight: bold;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 15px;
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 13px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="banner">
+        🚀 مرحباً بكم - تعلم استراتيجيات لعبة كراش الاحترافية
+    </div>
+
+    <div class="crash-container">
+        <div class="balance-badges-box">
+            <div class="balance-item">
+                الحقيقي: <span id="realBalance" style="color: #38bdf8;">0.00 $</span>
+            </div>
+            <div class="balance-item" style="border-right: 1px solid #334155; padding-right: 8px;">
+                الافتراضي (للتعلم): <span id="demoBalance" style="color: #eab308;">10.00 $</span>
+            </div>
+        </div>
+
+        <h2>محاكي طائرة كراش</h2>
+        
+        <div class="sky-area">
+            <div id="plane">✈️</div>
+        </div>
+
+        <div id="multiplier">1.00x</div>
+        <div id="status">اختر نوع الرصيد وابدأ جولة التعلم أو التحدي</div>
+
+        <div class="input-group">
+            <label>اختر رصيد اللعب الجاري:</label>
+            <div class="mode-selector">
+                <button type="button" id="demoModeBtn" class="mode-btn active" onclick="setGameMode('demo')">الرصيد الافتراضي (10$)</button>
+                <button type="button" id="realModeBtn" class="mode-btn" onclick="setGameMode('real')">الرصيد الحقيقي</button>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>مبلغ الدخول للجولة ($):</label>
+            <input type="number" id="betInput" class="game-input" placeholder="أدخل مبلغ الرهان">
+        </div>
+
+        <button id="startBtn" class="btn" onclick="startCrash()">بدء الجولة</button>
+        <button id="cashoutBtn" class="btn" onclick="cashOut()" disabled style="display:none;">سحب الأرباح</button>
+
+        <div class="wallet-section">
+            <h3>💳 إدارة المحفظة (إيداع / سحب الحقيقي بالفيزا)</h3>
+            <div class="input-group">
+                <label>المبلغ المراد إيداعه/سحبه للحقيقي ($):</label>
+                <input type="number" id="amountInput" class="game-input" placeholder="أدخل المبلغ">
+            </div>
+            <div class="wallet-btn-group">
+                <button class="w-btn deposit-btn" onclick="openVisaModal('إيداع')">إيداع بالفيزا</button>
+                <button class="w-btn withdraw-btn" onclick="openVisaModal('سحب')">سحب الحقيقي</button>
+            </div>
+            <div id="walletStatus" style="font-size: 12px; margin-top: 6px; color: #22c55e; text-align: center;"></div>
+        </div>
+
+        <div class="video-section">
+            <h3>🎥 فيديو توضيحي: طريقة الإيداع وشحن الرصيد</h3>
+            <div class="interactive-video-screen">
+                <div id="demoStepText">اضغط على زر التشغيل لرؤية خطوات شحن الرصيد وإيداعه ⬇️</div>
+                <button class="play-demo-btn" onclick="playDepositDemo()">▶ تشغيل الفيديو التوضيحي</button>
+            </div>
+        </div>
+
+        <div class="developer-box">
+            👨‍💻 المطور: <span>noureddien.dz</span><br>
+            📞 رقم الدعم: <span>0793188555</span>
+        </div>
+
+        <div>
+            <a href="index.html" class="back-link">← العودة إلى رئيسية المتجر</a>
+        </div>
+    </div>
+
+    <!-- نافذة فحص بطاقة الفيزا المنبثقة -->
+    <div id="visaModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle">فحص وبوابة دفع فيزا</h3>
+            <label style="font-size: 12px; color: #94a3b8;">رقم بطاقة فيزا (16 رقم):</label>
+            <input type="text" id="cardNumber" class="modal-input" placeholder="XXXX XXXX XXXX XXXX" maxlength="16">
+            
+            <label style="font-size: 12px; color: #94a3b8;">تاريخ الانتهاء (MM/YY):</label>
+            <input type="text" id="cardExpiry" class="modal-input" placeholder="MM/YY" maxlength="5">
+            
+            <label style="font-size: 12px; color: #94a3b8;">رمز الأمان (CVV):</label>
+            <input type="password" id="cardCvv" class="modal-input" placeholder="123" maxlength="3">
+
+            <div style="font-size: 11px; color: #38bdf8; margin: 8px 0; text-align: center;" id="checkingStatus">جاري فحص حالة البطاقة والرصيد...</div>
+
+            <div style="display: flex; gap: 5px; margin-top: 10px;">
+                <button class="w-btn deposit-btn" onclick="processVisaPayment()">فحص وتنفيذ</button>
+                <button class="w-btn" style="background: #475569; color: white;" onclick="closeVisaModal()">إلغاء</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+let currentMultiplier = 1.00;
+let gameInterval = null;
+let crashPoint = 0;
+let gameRunning = false;
+let cashedOut = false;
+let totalGames = 0;
+
+let realBalance = 0.00;
+let demoBalance = 10.00;
+let selectedMode = 'demo';
+
+let currentActionType = '';
+let pendingAmount = 0;
+let currentBet = 0;
+
+document.getElementById('realBalance').innerText = realBalance.toFixed(2) + ' $';
+document.getElementById('demoBalance').innerText = demoBalance.toFixed(2) + ' $';
+
+function setGameMode(mode) {
+    selectedMode = mode;
+    if(mode === 'demo') {
+        document.getElementById('demoModeBtn').classList.add('active');
+        document.getElementById('realModeBtn').classList.remove('active');
+    } else {
+        document.getElementById('realModeBtn').classList.add('active');
+        document.getElementById('demoModeBtn').classList.remove('active');
+    }
+}
+
+function playDepositDemo() {
+    let textElem = document.getElementById('demoStepText');
+    let steps = [
+        "الخطوة 1: أدخل المبلغ المراد إيداعه في خانة محفظة الحقيقي.",
+        "الخطوة 2: اضغط على زر 'إيداع بالفيزا'.",
+        "الخطوة 3: أدخل أرقام بطاقة الفيزا الخاصة بك للتحقق الآلي.",
+        "الخطوة 4: يتم شحن رصيدك الحقيقي فوراً بعد اجتياز فحص الرصيد!"
+    ];
+    let i = 0;
+    textElem.style.color = "#38bdf8";
+    textElem.innerText = steps[i];
+    
+    let demoInterval = setInterval(() => {
+        i++;
+        if(i < steps.length) {
+            textElem.innerText = steps[i];
+        } else {
+            clearInterval(demoInterval);
+            textElem.innerText = "✅ انتهى العرض التوضيحي! جرب الإيداع بالفيزا الآن.";
+            textElem.style.color = "#22c55e";
+        }
+    }, 2500);
+}
+
+function startCrash() {
+    let betValInput = document.getElementById('betInput').value;
+    let msg = document.getElementById('status');
+
+    if (betValInput === "" || betValInput === null) {
+        msg.style.color = "#ef4444";
+        msg.innerText = "الرجاء إدخال مبلغ الرهان أولاً ولا تقم بترك الخانة فارغة!";
+        return;
+    }
+
+    let betVal = parseFloat(betValInput);
+    if(isNaN(betVal) || betVal <= 0) {
+        msg.style.color = "#ef4444";
+        msg.innerText = "الرجاء إدخال مبلغ صحيح لدخول الجولة!";
+        return;
+    }
+
+    if (selectedMode === 'demo') {
+        if(demoBalance < betVal) {
+            msg.style.color = "#ef4444";
+            msg.innerText = "رصيدك الافتراضي للتعلم غير كافٍ!";
+            return;
+        }
+        demoBalance -= betVal;
+        document.getElementById('demoBalance').innerText = demoBalance.toFixed(2) + ' $';
+    } else {
+        if(realBalance < betVal) {
+            msg.style.color = "#ef4444";
+            msg.innerText = "رصيدك الحقيقي غير كافٍ! قم بشحن الحقيقي عبر الفيزا أولاً.";
+            return;
+        }
+        realBalance -= betVal;
+        document.getElementById('realBalance').innerText = realBalance.toFixed(2) + ' $';
+    }
+
+    currentBet = betVal;
+    currentMultiplier = 1.00;
+    cashedOut = false;
+    gameRunning = true;
+    totalGames++;
+    
+    document.getElementById('startBtn').disabled = true;
+    let cashBtn = document.getElementById('cashoutBtn');
+    cashBtn.disabled = false;
+    cashBtn.style.display = 'block';
+
+    msg.innerText = "الطائرة تطير الآن... احذر السقوط!";
+    msg.style.color = "#00ffcc";
+
+    if (totalGames === 1) {
+        crashPoint = 20.00;
+    } else {
+        let randomVal = Math.random();
+        if (randomVal < 0.85) {
+            crashPoint = (Math.random() * (1.30 - 1.01) + 1.01).toFixed(2);
+        } else {
+            crashPoint = (Math.random() * (4.00 - 1.31) + 1.31).toFixed(2);
+        }
+    }
+
+    let plane = document.getElementById('plane');
+    let xPos = 10;
+    let yPos = 10;
+
+    gameInterval = setInterval(() => {
+        let growthRate = 0.01 + (currentMultiplier * 0.005);
+        currentMultiplier += growthRate;
+        
+        document.getElementById('multiplier').innerText = currentMultiplier.toFixed(2) + 'x';
+
+        if (xPos < 260) xPos += 3;
+        if (yPos < 75) yPos += 1.5;
+        plane.style.left = xPos + 'px';
+        plane.style.bottom = yPos + 'px';
+
+        if (currentMultiplier >= crashPoint) {
+            clearInterval(gameInterval);
+            gameRunning = false;
+            document.getElementById('startBtn').disabled = false;
+            cashBtn.disabled = true;
+
+            if (!cashedOut) {
+                msg.innerText = `💥 خسرت رهالك بقيمة ${currentBet} $ (CRASH)!`;
+                msg.style.color = "#ef4444";
+                plane.style.transform = "rotate(45deg)";
+            }
+        }
+    }, 70);
+}
+
+function cashOut() {
+    if (gameRunning && !cashedOut) {
+        cashedOut = true;
+        gameRunning = false;
+        clearInterval(gameInterval);
+        
+        let wonAmount = currentBet * currentMultiplier;
+        
+        if (selectedMode === 'demo') {
+            demoBalance += wonAmount;
+            document.getElementById('demoBalance').innerText = demoBalance.toFixed(2) + ' $';
+        } else {
+            realBalance += wonAmount;
+            document.getElementById('realBalance').innerText = realBalance.toFixed(2) + ' $';
+        }
+
+        document.getElementById('startBtn').disabled = false;
+        let cashBtn = document.getElementById('cashoutBtn');
+        cashBtn.disabled = true;
+        
+        document.getElementById('status').innerText = `🎉 مبروك! ربحت ${wonAmount.toFixed(2)} $ عند ${currentMultiplier.toFixed(2)}x`;
+        document.getElementById('status').style.color = "#22c55e";
+    }
+}
+
+function openVisaModal(type) {
+    let amtInput = document.getElementById('amountInput').value;
+    let msg = document.getElementById('walletStatus');
+    
+    if (amtInput === "" || amtInput === null) {
+        msg.style.color = "#ef4444";
+        msg.innerText = "الرجاء إدخال المبلغ المراد إيداعه أولاً في الخانة المخصصة!";
+        return;
+    }
+
+    let amt = parseFloat(amtInput);
+    if(isNaN(amt) || amt <= 0) {
+        msg.style.color = "#ef4444";
+        msg.innerText = "الرجاء إدخال مبلغ صحيح لإجراء المعاملة!";
+        return;
+    }
+
+    pendingAmount = amt;
+    currentActionType = type;
+    document.getElementById('modalTitle').innerText = `فحص بطاقة فيزا لعملية ${type} الحقيقي`;
+    document.getElementById('checkingStatus').innerText = "جاهز لفحص رصيد البطاقة آلياً...";
+    document.getElementById('visaModal').style.display = 'flex';
+}
+
+function closeVisaModal() {
+    document.getElementById('visaModal').style.display = 'none';
+}
+
+function processVisaPayment() {
+    let cardNum = document.getElementById('cardNumber').value;
+    let expiry = document.getElementById('cardExpiry').value;
+    let cvv = document.getElementById('cardCvv').value;
+    let checkText = document.getElementById('checkingStatus');
+
+    if(cardNum.length < 16 || !expiry || cvv.length < 3) {
+        alert("الرجاء إدخال بيانات بطاقة الفيزا كاملة وصحيحة!");
+        return;
+    }
+
+    checkText.style.color = "#38bdf8";
+    checkText.innerText = "🔄 جاري الاتصال بالبنك وفحص رصيد الفيزا للحقيقي...";
+
+    setTimeout(() => {
+        let isCardValidAndFunded = true; 
+
+        if (currentActionType === 'سحب' && realBalance < pendingAmount) {
+            alert("عذراً، رصيدك الحقيقي في اللعبة أقل من المبلغ المطلوب سحبه!");
+            closeVisaModal();
+            return;
+        }
+
+        if(isCardValidAndFunded) {
+            if(currentActionType === 'إيداع') {
+                realBalance += pendingAmount;
+                document.getElementById('realBalance').innerText = realBalance.toFixed(2) + ' $';
+                let msg = document.getElementById('walletStatus');
+                msg.style.color = "#22c55e";
+                msg.innerText = `✅ تم فحص الفيزا بنجاح! تم إيداع ${pendingAmount} $ في الرصيد الحقيقي.`;
+            } else {
+                realBalance -= pendingAmount;
+                document.getElementById('realBalance').innerText = realBalance.toFixed(2) + ' $';
+                let msg = document.getElementById('walletStatus');
+                msg.style.color = "#22c55e";
+                msg.innerText = `✅ تمت عملية سحب ${pendingAmount} $ من الرصيد الحقيقي وإرسالها لبطاقتك!`;
+            }
+            closeVisaModal();
+            document.getElementById('amountInput').value = '';
+            document.getElementById('cardNumber').value = '';
+            document.getElementById('cardExpi
