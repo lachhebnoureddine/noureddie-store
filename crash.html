@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لعبة كراش التفاعلية</title>
+    <style>
+        body {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-family: Tahoma, sans-serif;
+            text-align: center;
+            padding-top: 50px;
+            margin: 0;
+        }
+        .crash-container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+        }
+        #multiplier {
+            font-size: 54px;
+            font-weight: bold;
+            color: #00ffcc;
+            margin: 20px 0;
+        }
+        #status {
+            margin-bottom: 20px;
+            color: #94a3b8;
+            font-size: 16px;
+        }
+        .btn {
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 5px;
+        }
+        #startBtn {
+            background: #22c55e;
+            color: white;
+        }
+        #cashoutBtn {
+            background: #eab308;
+            color: black;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #38bdf8;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="crash-container">
+        <h2>🚀 لعبة كراش التفاعلية</h2>
+        <div id="multiplier">1.00x</div>
+        <div id="status">اضغط بدء الجولة لتجربتها</div>
+        <button id="startBtn" class="btn" onclick="startCrash()">بدء الجولة</button>
+        <button id="cashoutBtn" class="btn" onclick="cashOut()" disabled>سحب الأرباح</button>
+        <div>
+            <a href="index.html" class="back-link">← العودة إلى رئيسية المتجر</a>
+        </div>
+    </div>
+
+<script>
+let currentMultiplier = 1.00;
+let gameInterval = null;
+let crashPoint = 0;
+let gameRunning = false;
+let cashedOut = false;
+
+function startCrash() {
+    currentMultiplier = 1.00;
+    cashedOut = false;
+    gameRunning = true;
+    
+    document.getElementById('startBtn').disabled = true;
+    document.getElementById('cashoutBtn').disabled = false;
+    document.getElementById('status').innerText = "الصاروخ يصعد... احذر!";
+    document.getElementById('status').style.color = "#00ffcc";
+
+    crashPoint = (Math.random() * (10 - 1.2) + 1.2).toFixed(2);
+
+    gameInterval = setInterval(() => {
+        currentMultiplier += 0.05;
+        document.getElementById('multiplier').innerText = currentMultiplier.toFixed(2) + 'x';
+
+        if (currentMultiplier >= crashPoint) {
+            clearInterval(gameInterval);
+            gameRunning = false;
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('cashoutBtn').disabled = true;
+
+            if (!cashedOut) {
+                document.getElementById('status').innerText = "💥 حدث سقوط (CRASH)! لقد خسرت الجولة.";
+                document.getElementById('status').style.color = "#ef4444";
+            }
+        }
+    }, 100);
+}
+
+function cashOut() {
+    if (gameRunning && !cashedOut) {
+        cashedOut = true;
+        gameRunning = false;
+        clearInterval(gameInterval);
+        
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('cashoutBtn').disabled = true;
+        document.getElementById('status').innerText = `🎉 مبروك! لقد سحبت أرباحك عند ${currentMultiplier.toFixed(2)}x`;
+        document.getElementById('status').style.color = "#22c55e";
+    }
+}
+</script>
+
+</body>
+</html>
